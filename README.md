@@ -161,7 +161,7 @@ end
 ```
 Para testar a eficácia, escolhi um dos usuários do formulário e coloquei algumas das subclasses favoritas do mesmo. Como resultado, obtive 2 subclasses que ele gostou de jogar e 1 que ainda não tinha jogado.
 
-![Teste do usuário](https://imgur.com/a/20llAoh.jpg)
+![Teste do usuário](https://imgur.com/jL9VT60.jpg)
 
 Outro testes que conduzi foi achar as 3 subclasses similares ao Druid Circle of Stars usando a função ***recommendationByClass*** e depois pegar os 3 resultados e usar a função ***recommendationByGroupOfClasses*** para verificar se achava o Druid Circle of Stars no Top 1. Foi um sucesso.
 
