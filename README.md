@@ -41,7 +41,7 @@ Para calcular a similaridade tentei 2 métodos:
 - Calcular o cosseno entre o vetor jogador e um outro vetor ***recommendationByPlayers_Cosseno***
 
 ```julia
-function recommendationByPlayers_Cosseno(person,database) #Compara uma pessoa a todas e dps recomenda as classes favoritas da pessoa mais similar
+function recommendationByPlayers_Cosseno(person,database) #Compara uma pessoa a todas e depois recomenda as classes favoritas da pessoa mais similar
     num_player, num_subclass = size(database)
     bestOption = 0
     bestScore = 0.0
@@ -60,7 +60,7 @@ function recommendationByPlayers_Cosseno(person,database) #Compara uma pessoa a 
     end
 end
 
-function recommendationByPlayers_Distancia(person, database) #Compara uma pessoa a todas e dps recomenda as classes favoritas da pessoa mais similar
+function recommendationByPlayers_Distancia(person, database) #Compara uma pessoa a todas e depois recomenda as classes favoritas da pessoa mais similar
     num_player, num_subclass = size(database)
     bestOption = 0
     bestScore = 0.0
@@ -118,8 +118,8 @@ function recommendationByClass(subclassIndex, database) #Compara a classe escolh
 end
 ```
 
-Movido pela curiosidade, testei criar uma função modificada da ***recommendationByClass*** em q invés de ter como entrada uma única subclasse, poderia receber um vetor com diversas subclasses e daria um Top 3 que seria as mais similares aos subclasses escolhidas.
-Para isso, eu usava o mesmo método de similaridade com cosseno, entretanto eu calculava a média dos cossenos das subclasses escolhidas com cada vetor subclasse do Dataset. Imaginei que um vetor que assim teria de certa forma o valor do cosseno do vetor que representaria a média dos vetores das subclasses escolhidas
+Movido pela curiosidade, testei criar uma função modificada da ***recommendationByClass*** em que invés de ter como entrada uma única subclasse, poderia receber um vetor com diversas subclasses e daria um Top 3 que seria as mais similares aos subclasses escolhidas.
+Para isso, eu usava o mesmo método de similaridade com cosseno, entretanto eu calculava a média dos cossenos das subclasses escolhidas com cada vetor subclasse do Dataset. Imaginei que um vetor que assim teria de certa forma o valor do cosseno do vetor que representaria a média dos vetores das subclasses escolhidas.
 
 ```julia
 using Statistics
@@ -159,13 +159,16 @@ function recommendationByGroupOfClasses(subclassIndex, database) #Compara com um
     end
 end
 ```
+Para testar a eficácia, escolhi um dos usuários do formulário e coloquei algumas das subclasses favoritas do mesmo. Como resultado, obtive 2 subclasses que ele gostou de jogar e 1 que ainda não tinha jogado.
 
-Um dos testes que conduzi foi achar as 3 subclasses similares ao Druid Circle of Stars usando a função ***recommendationByClass*** e depois pegar os 3 resultados e usar a função ***recommendationByGroupOfClasses*** para verificar se achava o Druid Circle of Stars no Top 1. Foi um sucesso.
+![Teste do usuário](https://imgur.com/a/20llAoh.jpg)
 
-##Usando ***recommendationByClass***:<br/>
+Outro testes que conduzi foi achar as 3 subclasses similares ao Druid Circle of Stars usando a função ***recommendationByClass*** e depois pegar os 3 resultados e usar a função ***recommendationByGroupOfClasses*** para verificar se achava o Druid Circle of Stars no Top 1. Foi um sucesso.
+
+Usando ***recommendationByClass***:<br/>
 ![recommendationByClass test](https://imgur.com/hlrQVog.jpg)
 
-##Usando ***recommendationByGroupOfClasses***:<br/>
+Usando ***recommendationByGroupOfClasses***:<br/>
 ![recommendationByGroupOfClasses test](https://imgur.com/K53DV3A.jpg)
 
 Entretanto, os testes demostraram um problema com o sistema e a modelagem em si. Subclasses que tiveram poucos votos positivos e muitos votos negativos eram consideradas similares mesmo não tendo jogabilidade parecidas. Infelizmente, nem todas as subclasses são consideradas boas para se jogar. Algumas são consideradas ruins mecanicamente pela comunidade e acabaram tendo muitos votos negativos no formulário ou não foram jogadas pela maioria dos jogadores.
@@ -173,5 +176,5 @@ Entretanto, os testes demostraram um problema com o sistema e a modelagem em si.
 Outro problema encontrado foi que subclasses mais recentes tiveram poucos jogadores que jogaram com ela, diminuindo a possibilidade delas serem recomendadas por ter um valor um pouco mais baixo no sistema.
 
 Analisando essas situações, cheguei a 2 conclusões:
-- Ainda precisa de muitos dados para o sistema ser mais robusto, principalmente em relação as subclasses pouco jogadas
-- Aceitar que subclasses ruins não serão recomendadas, pois se são ruins, a maioria dos jogadores não irá gostar de jogar com elas mesmo tendo jogabilidade similar a outras
+- Ainda precisa de muitos dados para o sistema ser mais robusto, principalmente em relação as subclasses pouco jogadas.
+- O método atual de recomendação talvez não seja o melhor para lidar com as classes consideradas ruins. Precisaria pesquisar outros métodos de recomendação para esse projeto.
